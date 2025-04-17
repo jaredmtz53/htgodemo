@@ -2,6 +2,8 @@ package com.jcode.hometogo.Service;
 
 import com.jcode.hometogo.Model.User;
 import com.jcode.hometogo.Repository.UserRepository;
+import com.jcode.hometogo.dto.GoogleUserDTO;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +47,15 @@ public class UserService {
     /// delete a user
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+    public User saveGoogleUser(GoogleUserDTO dto) {
+        User user = new User();
+        user.setEmail(dto.getEmail());
+        user.setFirstName(dto.getGiven_name());
+        user.setLastName(dto.getFamily_name());
+        user.setUsername(dto.getEmail());
+        user.setGoogleSub(dto.getSub());
+        return userRepository.save(user);
     }
 
 }

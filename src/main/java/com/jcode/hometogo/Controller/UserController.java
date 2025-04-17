@@ -6,7 +6,11 @@ import com.jcode.hometogo.Model.User;
 import com.jcode.hometogo.Service.HostService;
 import com.jcode.hometogo.Service.TenantService;
 import com.jcode.hometogo.Service.UserService;
+import com.jcode.hometogo.dto.GoogleUserDTO;
+
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +28,12 @@ public class UserController {
     public User createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
+     @PostMapping("/google")
+    public ResponseEntity<User> createGoogleUser(@RequestBody GoogleUserDTO dto) {
+        // Convert dto to User entity and save it
+        User savedUser = userService.saveGoogleUser(dto);
+        return ResponseEntity.ok(savedUser);
+    }
 
     @GetMapping
     public List<User> getAllUsers() {
@@ -35,6 +45,10 @@ public class UserController {
 
         return userService.getUserById(id);
     }
+    @GetMapping("/email/{email}")
+public User getUserByEmail(@PathVariable String email) {
+    return userService.getUserByEmail(email);
+}
 
     @PutMapping("/{id}")
     public User updateUser(@PathVariable Long id, @RequestBody User user) {

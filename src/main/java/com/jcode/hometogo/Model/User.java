@@ -16,7 +16,7 @@ import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
 public class User {
     @Id @GeneratedValue
     private long id;
-
+    private String googleSub;
     private String firstName;
     private String lastName;
     private String email;
