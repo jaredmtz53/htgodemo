@@ -10,6 +10,7 @@ import Landing from './pages/Landing.tsx'
 import Properties from './pages/Properties.tsx'
 import { Outlet } from 'react-router-dom'
 import AdminPortal from './pages/AdminPortal.tsx'
+import LoginPage from './pages/LoginPage.tsx'
 
 
 const Layout = () => (
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
       { path: 'Role', element: <Role /> },
       { path: 'landing', element: <Landing /> },
       { path: 'Admin', element: <AdminPortal />},
+      { path: 'Login', element: <LoginPage />}
       
     ]
   }
