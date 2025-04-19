@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { CgProfile } from "react-icons/cg";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 function Header() {
+  const navigate = useNavigate(); 
   const [signedIn, setSignedIn] = useState(false);
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -24,7 +27,7 @@ function Header() {
         </Link>
 
         <Button className="cursor-pointer">My Bookings</Button>
-        <Button className="cursor-pointer">
+        <Button className="cursor-pointer" onClick={() => navigate("/LogOn")}>
           {signedIn ? "Signed In" : "Sign In"}
         </Button>
         <CgProfile className="size-10 cursor-pointer" />
