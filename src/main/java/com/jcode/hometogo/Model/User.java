@@ -22,6 +22,11 @@ public class User {
     private String email;
     private String username;
 
+
+    @Column(nullable = false)
+    private String role;
+
+    
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("tenant-user")
     private Tenant tenant;

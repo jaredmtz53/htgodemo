@@ -28,12 +28,11 @@ public class UserController {
     public User createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
-     @PostMapping("/google")
-    public ResponseEntity<User> createGoogleUser(@RequestBody GoogleUserDTO dto) {
-        // Convert dto to User entity and save it
-        User savedUser = userService.saveGoogleUser(dto);
-        return ResponseEntity.ok(savedUser);
-    }
+    @PostMapping("/google")
+public ResponseEntity<User> createGoogleUser(@RequestBody GoogleUserDTO dto) {
+    User savedUser = userService.saveGoogleUser(dto);
+    return ResponseEntity.ok(savedUser); // Includes role, etc.
+}
 
     @GetMapping
     public List<User> getAllUsers() {
