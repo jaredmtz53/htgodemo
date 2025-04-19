@@ -10,7 +10,6 @@ import Landing from './pages/Landing.tsx'
 import Properties from './pages/Properties.tsx'
 import { Outlet } from 'react-router-dom'
 import AdminPortal from './pages/AdminPortal.tsx'
-import LoginPage from './pages/LoginPage.tsx'
 import LogOn from './pages/LogOn.tsx'
 
 
