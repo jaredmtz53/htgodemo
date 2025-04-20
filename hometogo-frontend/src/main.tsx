@@ -11,6 +11,9 @@ import Properties from './pages/Properties.tsx'
 import { Outlet } from 'react-router-dom'
 import Booking from './pages/Booking.tsx'
 import MyBookings from "./pages/MyBookings.tsx";
+import AdminPortal from './pages/AdminPortal.tsx'
+import LogOn from './pages/LogOn.tsx'
+
 
 const Layout = () => (
   <>
@@ -30,6 +33,9 @@ const router = createBrowserRouter([
       { path: 'landing', element: <Landing /> },
       { path: 'booking/:propertyId', element: <Booking /> },
       { path: 'mybookings', element: <MyBookings /> }
+      { path: 'Admin', element: <AdminPortal />}, 
+      { path: 'Logon', element: <LogOn />}
+      
     ]
   }
 ])
