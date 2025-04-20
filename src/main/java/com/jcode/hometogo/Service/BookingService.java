@@ -21,7 +21,35 @@ public class BookingService {
 
 
     public List<Booking> getBookingsByPropertyId(Long propertyId) {
-        return bookingRepository.findByPropertyId(propertyId);
+        return bookingRepository.findByProperty_Id(propertyId);
     }
+
+    public Booking createBooking(Booking bookingData) {
+        // Use bookingData.getTenantId() for now
+        Long tenantId = bookingData.getTenantId(); // later: get from logged-in user
+        Long propertyId = bookingData.getPropertyId();
+    
+        Tenant tenant = tenantRepository.findById(tenantId)
+                .orElseThrow(() -> new RuntimeException("Tenant not found"));
+    
+        Property property = propertyRepository.findById(propertyId)
+                .orElseThrow(() -> new RuntimeException("Property not found"));
+    
+        Booking booking = new Booking();
+        booking.setStartDate(bookingData.getStartDate());
+        booking.setEndDate(bookingData.getEndDate());
+        booking.setTenant(tenant);
+        booking.setProperty(property);
+        booking.setBooked(true);
+    
+        return bookingRepository.save(booking);
+    }
+    
+    
+
+    public List<Booking> getBookingsByTenantId(Long tenantId) {
+        return bookingRepository.findByTenant_Id(tenantId);
+    }
+    
 
 }

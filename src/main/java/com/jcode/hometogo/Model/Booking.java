@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
 public class Booking {
     @Id
     @GeneratedValue
@@ -22,7 +22,7 @@ public class Booking {
     private LocalDate startDate;
     private LocalDate endDate;
 
-    private boolean booked; //false == open true == booked
+    private boolean booked;
 
     @ManyToOne
     @JoinColumn(name = "tenant_id")
@@ -34,5 +34,10 @@ public class Booking {
     @JsonBackReference("property-booking")
     private Property property;
 
+    // ✅ These are NOT persisted, just used for request payload
+    @Transient
+    private Long tenantId;
 
+    @Transient
+    private Long propertyId;
 }
