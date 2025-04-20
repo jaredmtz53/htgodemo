@@ -34,7 +34,7 @@ public class Booking {
     @JsonBackReference("property-booking")
     private Property property;
 
-    // ✅ These are NOT persisted, just used for request payload
+    
     @Transient
     private Long tenantId;
 

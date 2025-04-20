@@ -13,9 +13,9 @@ type Booking = {
 };
 
 const MyBookings: React.FC = () => {
-  const tenantId = Number(localStorage.getItem("tenantId")); // ✅ dynamic
+  const tenantId = Number(localStorage.getItem("tenantId")); 
   const [bookings, setBookings] = useState<Booking[]>([]);
-  const [loading, setLoading] = useState(true); // optional
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     if (!tenantId) {
@@ -56,7 +56,7 @@ const MyBookings: React.FC = () => {
       <td className="p-2">{b.startDate}</td>
       <td className="p-2">{b.endDate}</td>
       <td className="p-2">
-        {/* ✅ Always show property ID; optionally name & location */}
+        
         #{b.property?.id}
         {b.property?.name && ` — ${b.property.name}`}
         {b.property?.location && ` — ${b.property.location}`}
