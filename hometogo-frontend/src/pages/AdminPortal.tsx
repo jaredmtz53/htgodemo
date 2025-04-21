@@ -36,7 +36,7 @@ type User = {
   lastName: string;
   email: string;
   username: string;
-  banned: boolean; 
+  banned: boolean;
 };
 
 type Host = {
@@ -65,8 +65,14 @@ type Property = {
   };
 };
 
-
-type Booking = { id: number; date: string; status: string };
+type Booking = {
+  id: number;
+  startDate: string;
+  endDate: string;
+  status: string;
+  tenantName: string;
+  hostName: string;
+};
 
 //ADMIN PORTAL
 const AdminPortal: React.FC = () => {
@@ -111,8 +117,6 @@ const AdminPortal: React.FC = () => {
     });
   };
 
-
-
   //TRYING TO BAN USERS
 
   const [bannedUsers, setBannedUsers] = useState<User[]>([]);
@@ -121,14 +125,6 @@ const AdminPortal: React.FC = () => {
     const res = await axios.get("http://localhost:8080/api/users");
     setBannedUsers(res.data.filter((user: User) => user.banned)); // fixed .bannned
   };
-
-
-
-
-
-
-
-
 
   // Talking to the database via our predeined endpoints from Java Crud API
   const fetchUsers = async () => {
@@ -148,12 +144,18 @@ const AdminPortal: React.FC = () => {
     setProperties(res.data);
   };
 
-   const fetchBookings = async (propertyId: number) => {
-     const res = await axios.get(
-       `http://localhost:8080/api/bookings/${propertyId}`
-     );
-     setBookings(res.data);
-   };
+  //const fetchBookings = async (propertyId: number) => {
+  //  const res = await axios.get(
+  //    `http://localhost:8080/api/bookings/${propertyId}`
+  //  );
+  //  setBookings(res.data);
+  //};
+  const fetchBookings = async (propertyId: number) => {
+    const res = await axios.get(
+      `http://localhost:8080/api/bookings/property/${propertyId}`
+    );
+    setBookings(res.data);
+  };
 
   //const fetchBookings = async (propertyId: number) => {
   //  const res = await axios.get(
@@ -192,8 +194,6 @@ const AdminPortal: React.FC = () => {
         break;
     }
   }, [tab]); // <-- leave only this
-  
-  
 
   // Render the UI for the admin page
   /**
@@ -226,13 +226,13 @@ const AdminPortal: React.FC = () => {
           </Button>
         ))}
       </div>
+
       {/* Users */}
-      {/*
       {tab === "users" && (
         <table className="w-full border text-sm">
           <thead className="bg-gray-100">
-        <tr>
-          <th className="p-2 text-left">ID</th>
+            <tr>
+              <th className="p-2 text-left">ID</th>
               <th className="p-2 text-left">Name</th>
               <th className="p-2 text-left">Email</th>
               <th className="p-2 text-left">Username</th>
@@ -301,6 +301,7 @@ const AdminPortal: React.FC = () => {
                         </form>
                       </DialogContent>
                     </Dialog>
+
                     <Button
                       variant="destructive"
                       size="sm"
@@ -308,6 +309,33 @@ const AdminPortal: React.FC = () => {
                     >
                       Delete
                     </Button>
+                    {user.banned ? (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={async () => {
+                          await axios.put(
+                            `http://localhost:8080/api/users/${user.id}/unban`
+                          );
+                          fetchUsers();
+                        }}
+                      >
+                        Unban
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={async () => {
+                          await axios.put(
+                            `http://localhost:8080/api/users/${user.id}/ban`
+                          );
+                          fetchUsers();
+                        }}
+                      >
+                        Ban
+                      </Button>
+                    )}
                   </td>
                 </tr>
               );
@@ -315,123 +343,6 @@ const AdminPortal: React.FC = () => {
           </tbody>
         </table>
       )}
-
-
-      {/* Users */}
-{tab === "users" && (
-  <table className="w-full border text-sm">
-    <thead className="bg-gray-100">
-      <tr>
-        <th className="p-2 text-left">ID</th>
-        <th className="p-2 text-left">Name</th>
-        <th className="p-2 text-left">Email</th>
-        <th className="p-2 text-left">Username</th>
-        <th className="p-2 text-left">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {users.map((user) => {
-        const updatedUser = { ...user };
-        return (
-          <tr key={user.id} className="border-t">
-            <td className="p-2">{user.id}</td>
-            <td className="p-2">
-              {user.firstName} {user.lastName}
-            </td>
-            <td className="p-2">{user.email}</td>
-            <td className="p-2">{user.username}</td>
-            <td className="p-2 space-x-2">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant="outline" size="sm">
-                    Edit
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Edit User</DialogTitle>
-                  </DialogHeader>
-                  <form
-                    className="space-y-3"
-                    onSubmit={async (e) => {
-                      e.preventDefault();
-                      await axios.put(
-                        `http://localhost:8080/api/users/${user.id}`,
-                        updatedUser
-                      );
-                      fetchUsers();
-                      fetchStats();
-                    }}
-                  >
-                    <Input
-                      defaultValue={user.firstName}
-                      onChange={(e) =>
-                        (updatedUser.firstName = e.target.value)
-                      }
-                    />
-                    <Input
-                      defaultValue={user.lastName}
-                      onChange={(e) =>
-                        (updatedUser.lastName = e.target.value)
-                      }
-                    />
-                    <Input
-                      defaultValue={user.email}
-                      onChange={(e) =>
-                        (updatedUser.email = e.target.value)
-                      }
-                    />
-                    <Input
-                      defaultValue={user.username}
-                      onChange={(e) =>
-                        (updatedUser.username = e.target.value)
-                      }
-                    />
-                    <Button type="submit">Save</Button>
-                  </form>
-                </DialogContent>
-              </Dialog>
-
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={() => deleteUser(user.id)}
-              >
-                Delete
-              </Button>
-              {user.banned ? (
-  <Button
-    variant="outline"
-    size="sm"
-    onClick={async () => {
-      await axios.put(`http://localhost:8080/api/users/${user.id}/unban`);
-      fetchUsers();
-    }}
-  >
-    Unban
-  </Button>
-) : (
-  <Button
-    variant="outline"
-    size="sm"
-    onClick={async () => {
-      await axios.put(`http://localhost:8080/api/users/${user.id}/ban`);
-      fetchUsers();
-    }}
-  >
-    Ban
-  </Button>
-)}
-
-            
-            </td>
-          </tr>
-        );
-      })}
-    </tbody>
-  </table>
-)}
-
 
       {/* Hosts */}
       {tab === "hosts" && (
@@ -485,83 +396,83 @@ const AdminPortal: React.FC = () => {
         </table>
       )}
 
+      {tab === "properties" && (
+        <table className="w-full border text-sm">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="p-2 text-left">Property ID</th>
+              <th className="p-2 text-left">Title</th>{" "}
+              {/* Changed: using title instead of name */}
+              <th className="p-2 text-left">Host</th>
+              <th className="p-2 text-left">Bookings</th>
+            </tr>
+          </thead>
+          <tbody>
+            {properties.map((p) => (
+              <tr key={p.id} className="border-t">
+                <td className="p-2">{p.id}</td>
+                <td className="p-2">{p.title}</td>{" "}
+                {/* Changed: p.name -> p.title */}
+                <td className="p-2">
+                  {/* Uses optional chaining to safely access host and user fields */}
+                  {p.host?.user?.firstName} {p.host?.user?.lastName}
+                </td>
+                <td className="p-2">
+                  <Button
+                    onClick={() => {
+                      setSelectedPropertyId(p.id);
+                      setTab("bookings");
+                      fetchBookings(p.id);
+                    }}
+                  >
+                    View
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
 
-{tab === "properties" && (
-  <table className="w-full border text-sm">
-    <thead className="bg-gray-100">
-      <tr>
-        <th className="p-2 text-left">Property ID</th>
-        <th className="p-2 text-left">Title</th> {/* Changed: using title instead of name */}
-        <th className="p-2 text-left">Host</th>
-        <th className="p-2 text-left">Bookings</th>
-      </tr>
-    </thead>
-    <tbody>
-      {properties.map((p) => (
-        <tr key={p.id} className="border-t">
-          <td className="p-2">{p.id}</td>
-          <td className="p-2">{p.title}</td> {/* Changed: p.name -> p.title */}
-          <td className="p-2">
-            {/* Uses optional chaining to safely access host and user fields */}
-            {p.host?.user?.firstName} {p.host?.user?.lastName}
-          </td>
-          <td className="p-2">
-            <Button
-              onClick={() => {
-                setSelectedPropertyId(p.id);
-                setTab("bookings");
-                fetchBookings(p.id);
-              }}
-            >
-              View
-            </Button>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-)}
-
-
-{tab === "banned" && (
-  <table className="w-full border text-sm">
-    <thead className="bg-gray-100">
-      <tr>
-        <th className="p-2 text-left">ID</th>
-        <th className="p-2 text-left">Name</th>
-        <th className="p-2 text-left">Email</th>
-        <th className="p-2 text-left">Username</th>
-        <th className="p-2 text-left">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {bannedUsers.map((user) => (
-        <tr key={user.id} className="border-t">
-          <td className="p-2">{user.id}</td>
-          <td className="p-2">
-            {user.firstName} {user.lastName}
-          </td>
-          <td className="p-2">{user.email}</td>
-          <td className="p-2">{user.username}</td>
-          <td className="p-2">
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={async () => {
-                await axios.put(
-                  `http://localhost:8080/api/users/${user.id}/unban`
-                );
-                fetchBannedUsers();
-              }}
-            >
-              Unban
-            </Button>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-)}
+      {tab === "banned" && (
+        <table className="w-full border text-sm">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="p-2 text-left">ID</th>
+              <th className="p-2 text-left">Name</th>
+              <th className="p-2 text-left">Email</th>
+              <th className="p-2 text-left">Username</th>
+              <th className="p-2 text-left">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {bannedUsers.map((user) => (
+              <tr key={user.id} className="border-t">
+                <td className="p-2">{user.id}</td>
+                <td className="p-2">
+                  {user.firstName} {user.lastName}
+                </td>
+                <td className="p-2">{user.email}</td>
+                <td className="p-2">{user.username}</td>
+                <td className="p-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={async () => {
+                      await axios.put(
+                        `http://localhost:8080/api/users/${user.id}/unban`
+                      );
+                      fetchBannedUsers();
+                    }}
+                  >
+                    Unban
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
 
       {/* Bookings */}
       {tab === "bookings" && selectedPropertyId && (
@@ -573,7 +484,10 @@ const AdminPortal: React.FC = () => {
             <thead className="bg-gray-100">
               <tr>
                 <th className="p-2 text-left">Booking ID</th>
-                <th className="p-2 text-left">Date</th>
+                <th className="p-2 text-left">Tenant</th>
+                <th className="p-2 text-left">Host</th>
+                <th className="p-2 text-left">Start Date</th>
+                <th className="p-2 text-left">End Date</th>
                 <th className="p-2 text-left">Status</th>
               </tr>
             </thead>
@@ -581,7 +495,10 @@ const AdminPortal: React.FC = () => {
               {bookings.map((b) => (
                 <tr key={b.id} className="border-t">
                   <td className="p-2">{b.id}</td>
-                  <td className="p-2">{b.date}</td>
+                  <td className="p-2">{b.tenantName}</td>
+                  <td className="p-2">{b.hostName}</td>
+                  <td className="p-2">{b.startDate}</td>
+                  <td className="p-2">{b.endDate}</td>
                   <td className="p-2">{b.status}</td>
                 </tr>
               ))}
@@ -590,11 +507,7 @@ const AdminPortal: React.FC = () => {
         </>
       )}
     </div>
-  )}
-
-
-
-
-
+  );
+};
 
 export default AdminPortal;
