@@ -24,7 +24,7 @@ public class Tenant {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    @JsonManagedReference("tenant-user") // ✅ Must be this
+    @JsonManagedReference("tenant-user") // 
     private User user;
 
     @OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL)
