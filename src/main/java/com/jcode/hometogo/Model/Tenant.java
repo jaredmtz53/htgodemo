@@ -17,16 +17,14 @@ import java.util.List;
 @Entity
 public class Tenant {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String tenantBio;
 
-
-
     @OneToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference("tenant-user")
+    @JsonManagedReference("tenant-user") // 
     private User user;
 
     @OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL)

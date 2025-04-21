@@ -6,7 +6,7 @@ import com.jcode.hometogo.dto.GoogleUserDTO;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
+import java.util.Optional;
 import java.util.List;
 
 @Service
@@ -49,13 +49,44 @@ public class UserService {
         userRepository.deleteById(id);
     }
     public User saveGoogleUser(GoogleUserDTO dto) {
+        User existing = userRepository.findByEmail(dto.getEmail());
+        if (existing != null) return existing;
+    
         User user = new User();
+        user.setGoogleSub(dto.getSub());
         user.setEmail(dto.getEmail());
         user.setFirstName(dto.getGiven_name());
         user.setLastName(dto.getFamily_name());
         user.setUsername(dto.getEmail());
-        user.setGoogleSub(dto.getSub());
+    
+        user.setRole("TENANT"); // or "CUSTOMER" — whatever default makes sense
+    
         return userRepository.save(user);
+    }
+
+
+
+    // Ban and Unban User
+    public boolean banUser(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setBanned(true);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean unbanUser(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setBanned(false);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
     }
 
 }

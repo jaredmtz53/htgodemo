@@ -1,5 +1,6 @@
 package com.jcode.hometogo.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,14 +24,19 @@ private Long id;
     private String email;
     private String username;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference("tenant-user")
-    private Tenant tenant;
+    @Column(nullable = false)
+    private String role;
 
+    @Column(nullable = false)
+    private boolean banned = false;
+
+    
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference("host-user")
+    @JsonBackReference("host-user")
     private Host host;
 
-
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference("tenant-user")
+    private Tenant tenant;
 
 }

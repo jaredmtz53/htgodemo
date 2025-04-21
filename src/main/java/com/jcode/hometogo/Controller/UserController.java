@@ -10,9 +10,10 @@ import com.jcode.hometogo.dto.GoogleUserDTO;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.Optional;
 import java.util.List;
 
 @RestController
@@ -28,12 +29,11 @@ public class UserController {
     public User createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
-     @PostMapping("/google")
-    public ResponseEntity<User> createGoogleUser(@RequestBody GoogleUserDTO dto) {
-        // Convert dto to User entity and save it
-        User savedUser = userService.saveGoogleUser(dto);
-        return ResponseEntity.ok(savedUser);
-    }
+    @PostMapping("/google")
+public ResponseEntity<User> createGoogleUser(@RequestBody GoogleUserDTO dto) {
+    User savedUser = userService.saveGoogleUser(dto);
+    return ResponseEntity.ok(savedUser); // Includes role, etc.
+}
 
     @GetMapping
     public List<User> getAllUsers() {
@@ -69,5 +69,27 @@ public User getUserByEmail(@PathVariable String email) {
         return tenantService.createTenant(userId, tenantData);
     }
 
+
+
+    // Trying to ban and unban users
+    @PutMapping("/{id}/ban")
+    public ResponseEntity<String> banUser(@PathVariable Long id) {
+        boolean success = userService.banUser(id);
+        if (success) {
+            return ResponseEntity.ok("User banned successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+    }
+
+    @PutMapping("/{id}/unban")
+    public ResponseEntity<String> unbanUser(@PathVariable Long id) {
+        boolean success = userService.unbanUser(id);
+        if (success) {
+            return ResponseEntity.ok("User unbanned successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+    }
 
 }

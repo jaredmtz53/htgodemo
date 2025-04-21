@@ -10,6 +10,11 @@ import Landing from './pages/Landing.tsx'
 import Properties from './pages/Properties.tsx'
 import { Outlet } from 'react-router-dom'
 import PropertyDetails from './pages/PropertyDetails.tsx'
+import Booking from './pages/Booking.tsx'
+import MyBookings from "./pages/MyBookings.tsx";
+import AdminPortal from './pages/AdminPortal.tsx'
+import LogOn from './pages/LogOn.tsx'
+
 
 const Layout = () => (
   <>
@@ -28,6 +33,11 @@ const router = createBrowserRouter([
       { path: 'Role', element: <Role /> },
       { path: 'landing', element: <Landing /> },
       {path: 'properties/:id', element: <PropertyDetails />},
+      { path: 'booking/:propertyId', element: <Booking /> },
+      { path: 'mybookings', element: <MyBookings /> },
+      { path: 'Admin', element: <AdminPortal />}, 
+      { path: 'Logon', element: <LogOn />}
+      
     ]
   }
 ])
