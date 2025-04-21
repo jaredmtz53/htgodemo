@@ -58,7 +58,9 @@ const Booking: React.FC = () => {
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Start Date */}
         <div>
-          <label htmlFor="startDate" className="block mb-1 font-medium">Start Date</label>
+          <label htmlFor="startDate" className="block mb-1 font-medium">
+            Start Date
+          </label>
           <Input
             type="date"
             id="startDate"
@@ -71,7 +73,9 @@ const Booking: React.FC = () => {
 
         {/* End Date */}
         <div>
-          <label htmlFor="endDate" className="block mb-1 font-medium">End Date</label>
+          <label htmlFor="endDate" className="block mb-1 font-medium">
+            End Date
+          </label>
           <Input
             type="date"
             id="endDate"
@@ -84,7 +88,9 @@ const Booking: React.FC = () => {
 
         {/* Tenant ID */}
         <div>
-          <label htmlFor="tenantId" className="block mb-1 font-medium">Tenant ID</label>
+          <label htmlFor="tenantId" className="block mb-1 font-medium">
+            Tenant ID
+          </label>
           <Input
             type="number"
             id="tenantId"
@@ -95,28 +101,44 @@ const Booking: React.FC = () => {
           />
         </div>
 
-        {/* Property ID (read-only from URL) */}
+        {/* Property ID (editable by user) */}
         <div>
-          <label htmlFor="propertyId" className="block mb-1 font-medium">Property ID</label>
+          <label htmlFor="propertyId" className="block mb-1 font-medium">
+            Property ID
+          </label>
           <Input
             type="number"
             id="propertyId"
             name="propertyId"
             value={booking.propertyId}
-            readOnly
+            onChange={(e) =>
+              setBooking({ ...booking, propertyId: Number(e.target.value) })
+            }
           />
         </div>
 
-        <Button type="submit" className="w-full">Submit Booking</Button>
+        <Button type="submit" className="w-full">
+          Submit Booking
+        </Button>
       </form>
 
       {submittedBooking && (
         <div className="mt-6 border p-4 rounded bg-gray-50">
-          <h2 className="font-semibold text-lg mb-2 text-center">Booking Created</h2>
-          <p><strong>Start Date:</strong> {submittedBooking.startDate}</p>
-          <p><strong>End Date:</strong> {submittedBooking.endDate}</p>
-          <p><strong>Tenant ID:</strong> {submittedBooking.tenantId}</p>
-          <p><strong>Property ID:</strong> {submittedBooking.propertyId}</p>
+          <h2 className="font-semibold text-lg mb-2 text-center">
+            Booking Created
+          </h2>
+          <p>
+            <strong>Start Date:</strong> {submittedBooking.startDate}
+          </p>
+          <p>
+            <strong>End Date:</strong> {submittedBooking.endDate}
+          </p>
+          <p>
+            <strong>Tenant ID:</strong> {submittedBooking.tenantId}
+          </p>
+          <p>
+            <strong>Property ID:</strong> {submittedBooking.propertyId}
+          </p>
         </div>
       )}
     </div>

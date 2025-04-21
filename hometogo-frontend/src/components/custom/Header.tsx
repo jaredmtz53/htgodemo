@@ -30,6 +30,9 @@ function Header() {
           My Bookings
           </Button>
         
+        <Button className="cursor-pointer" onClick={() => navigate("/booking/:propertyId")}>
+          Book Now!
+          </Button>
 
 
 
