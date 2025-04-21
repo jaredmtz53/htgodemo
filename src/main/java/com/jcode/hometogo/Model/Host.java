@@ -29,7 +29,7 @@ public class Host {
     private User user;
 
     @OneToMany(mappedBy = "host", cascade = CascadeType.ALL)
-    @JsonManagedReference("host-property")
+    @JsonBackReference("host-property")
     private List<Property> properties;
 
 }

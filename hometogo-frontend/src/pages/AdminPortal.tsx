@@ -51,7 +51,20 @@ type Tenant = {
   user: User;
 };
 
-type Property = { id: number; name: string; location: string };
+//type Property = { id: number; name: string; location: string };
+
+type Property = {
+  id: number;
+  title: string; // from the DB schema, "title" is the column name for property name
+  host?: {
+    user?: {
+      firstName: string;
+      lastName: string;
+    };
+  };
+};
+
+
 type Booking = { id: number; date: string; status: string };
 
 //ADMIN PORTAL
@@ -114,12 +127,23 @@ const AdminPortal: React.FC = () => {
     const res = await axios.get("http://localhost:8080/api/properties");
     setProperties(res.data);
   };
-  const fetchBookings = async (propertyId: number) => {
-    const res = await axios.get(
-      `http://localhost:8080/api/bookings/${propertyId}`
-    );
-    setBookings(res.data);
-  };
+
+   const fetchBookings = async (propertyId: number) => {
+     const res = await axios.get(
+       `http://localhost:8080/api/bookings/${propertyId}`
+     );
+     setBookings(res.data);
+   };
+
+  //const fetchBookings = async (propertyId: number) => {
+  //  const res = await axios.get(
+  //  `http://localhost:8080/api/bookings/${propertyId}`
+  //  );
+  //  setBookings(res.data);
+  //};
+  ///useEffect(() => {
+  //  console.log("PROPERTIES DATA:", properties);
+  //}, [properties]);
 
   const deleteUser = async (id: number) => {
     await axios.delete(`http://localhost:8080/api/users/${id}`);
@@ -319,39 +343,44 @@ const AdminPortal: React.FC = () => {
         </table>
       )}
 
-      {/* Properties */}
-      {tab === "properties" && (
-        <table className="w-full border text-sm">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="p-2 text-left">Property ID</th>
-              <th className="p-2 text-left">Name</th>
-              <th className="p-2 text-left">Location</th>
-              <th className="p-2 text-left">Bookings</th>
-            </tr>
-          </thead>
-          <tbody>
-            {properties.map((p) => (
-              <tr key={p.id} className="border-t">
-                <td className="p-2">{p.id}</td>
-                <td className="p-2">{p.name}</td>
-                <td className="p-2">{p.location}</td>
-                <td className="p-2">
-                  <Button
-                    onClick={() => {
-                      setSelectedPropertyId(p.id);
-                      setTab("bookings");
-                      fetchBookings(p.id);
-                    }}
-                  >
-                    View
-                  </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+
+{tab === "properties" && (
+  <table className="w-full border text-sm">
+    <thead className="bg-gray-100">
+      <tr>
+        <th className="p-2 text-left">Property ID</th>
+        <th className="p-2 text-left">Title</th> {/* Changed: using title instead of name */}
+        <th className="p-2 text-left">Host</th>
+        <th className="p-2 text-left">Bookings</th>
+      </tr>
+    </thead>
+    <tbody>
+      {properties.map((p) => (
+        <tr key={p.id} className="border-t">
+          <td className="p-2">{p.id}</td>
+          <td className="p-2">{p.title}</td> {/* Changed: p.name -> p.title */}
+          <td className="p-2">
+            {/* Uses optional chaining to safely access host and user fields */}
+            {p.host?.user?.firstName} {p.host?.user?.lastName}
+          </td>
+          <td className="p-2">
+            <Button
+              onClick={() => {
+                setSelectedPropertyId(p.id);
+                setTab("bookings");
+                fetchBookings(p.id);
+              }}
+            >
+              View
+            </Button>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+)}
+
+
 
       {/* Bookings */}
       {tab === "bookings" && selectedPropertyId && (

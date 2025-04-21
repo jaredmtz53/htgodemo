@@ -24,7 +24,6 @@ public class Property {
 
     @ManyToOne
     @JoinColumn(name = "host_id")
-    @JsonBackReference("host-property")
     private Host host;
 
 
