@@ -16,7 +16,7 @@ import java.util.List;
 @Builder
 @Entity
 public class Host {
-    //Id setup
+    // Id setup
     @Id
     @GeneratedValue
     private Long id;
@@ -25,13 +25,11 @@ public class Host {
     // link classes
     @OneToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference("host-user")
+    @JsonManagedReference("host-user")
     private User user;
 
     @OneToMany(mappedBy = "host", cascade = CascadeType.ALL)
     @JsonManagedReference("host-property")
     private List<Property> properties;
-
-
 
 }

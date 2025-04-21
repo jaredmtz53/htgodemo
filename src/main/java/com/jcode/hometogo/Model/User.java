@@ -1,5 +1,6 @@
 package com.jcode.hometogo.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,8 @@ import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
 @Builder
 @Entity
 public class User {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private long id;
     private String googleSub;
     private String firstName;
@@ -22,19 +24,15 @@ public class User {
     private String email;
     private String username;
 
-
     @Column(nullable = false)
     private String role;
 
-    
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference("tenant-user")
-    private Tenant tenant;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference("host-user")
+    @JsonBackReference("host-user")
     private Host host;
 
-
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference("tenant-user")
+    private Tenant tenant;
 
 }

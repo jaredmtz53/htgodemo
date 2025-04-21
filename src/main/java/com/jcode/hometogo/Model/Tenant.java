@@ -22,11 +22,9 @@ public class Tenant {
 
     private String tenantBio;
 
-
-
     @OneToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference("tenant-user")
+    @JsonManagedReference("tenant-user") // ✅ Must be this
     private User user;
 
     @OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL)

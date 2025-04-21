@@ -1,9 +1,9 @@
 /**
- * useful imports that Jared explained how to use 
+ * useful imports that Jared explained how to use
  * combined with imports that we suggested by online tutorials
- * 
+ *
  * useState useEffect --> tsx is stupid cannot remmeber things unless you
- * tell it to. 
+ * tell it to.
  * axios --> talking to data, in this case mySQL database
  */
 import React, { useState, useEffect } from "react";
@@ -18,17 +18,15 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 
-
-
 /**
- * Obejcts! 
- * Similar to structs in C++ 
- * I defined this with the attributes of user deatils I am 
- * attempting to pull from the database. 
- * Admin realisticall should be able to view all users, properties, 
- * and bookings made on those properties. 
- * 
- * IMPORTANT NOTE: 
+ * Obejcts!
+ * Similar to structs in C++
+ * I defined this with the attributes of user deatils I am
+ * attempting to pull from the database.
+ * Admin realisticall should be able to view all users, properties,
+ * and bookings made on those properties.
+ *
+ * IMPORTANT NOTE:
  * I have only been able to delete and edit a user!
  * Will reuse the delete to ban users until banning is implemented.
  */
@@ -40,34 +38,38 @@ type User = {
   username: string;
 };
 
-type Host = { hostID: number; user: User };
-type Tenant = { tenantID: number; user: User };
+type Host = {
+  id: number;
+  hostBio: string;
+  user: User;
+  hostID?: number; // Optional if both fields are needed
+};
+
+type Tenant = {
+  id: number;
+  tenantBio: string; // optional: if you want to show the bio
+  user: User;
+};
+
 type Property = { id: number; name: string; location: string };
 type Booking = { id: number; date: string; status: string };
 
-
-
-
-
 //ADMIN PORTAL
 const AdminPortal: React.FC = () => {
+  //Literal tabs
+  const [tab, setTab] = useState<
+    "users" | "hosts" | "tenants" | "properties" | "bookings"
+  >("users");
 
-
-
-    //Literal tabs
-  const [tab, setTab] = useState<"users" | "hosts" | "tenants" | "properties" | "bookings">("users");
-
-
-  // data states for the enties that Admin is to modrate 
+  // data states for the enties that Admin is to modrate
   const [users, setUsers] = useState<User[]>([]);
   const [hosts, setHosts] = useState<Host[]>([]);
   const [tenants, setTenants] = useState<Tenant[]>([]);
   const [properties, setProperties] = useState<Property[]>([]);
   const [bookings, setBookings] = useState<Booking[]>([]);
-  const [selectedPropertyId, setSelectedPropertyId] = useState<number | null>(null);
-
-
-
+  const [selectedPropertyId, setSelectedPropertyId] = useState<number | null>(
+    null
+  );
 
   // Data states intened to keeping stats and other anlytics, meant for show, required by teacher guidlines
   const [stats, setStats] = useState({
@@ -77,10 +79,6 @@ const AdminPortal: React.FC = () => {
     properties: 0,
     bookings: 0,
   });
-
-
-
-
 
   // Meant to fetch stats and gather them
   const fetchStats = async () => {
@@ -98,7 +96,6 @@ const AdminPortal: React.FC = () => {
       bookings: 0, // update if you add a count endpoint
     });
   };
-
 
   // Talking to the database via our predeined endpoints from Java Crud API
   const fetchUsers = async () => {
@@ -118,7 +115,9 @@ const AdminPortal: React.FC = () => {
     setProperties(res.data);
   };
   const fetchBookings = async (propertyId: number) => {
-    const res = await axios.get(`http://localhost:8080/api/bookings/${propertyId}`);
+    const res = await axios.get(
+      `http://localhost:8080/api/bookings/${propertyId}`
+    );
     setBookings(res.data);
   };
 
@@ -132,19 +131,24 @@ const AdminPortal: React.FC = () => {
   useEffect(() => {
     fetchStats();
     switch (tab) {
-      case "users": fetchUsers(); break;
-      case "hosts": fetchHosts(); break;
-      case "tenants": fetchTenants(); break;
-      case "properties": fetchProperties(); break;
+      case "users":
+        fetchUsers();
+        break;
+      case "hosts":
+        fetchHosts();
+        break;
+      case "tenants":
+        fetchTenants();
+        break;
+      case "properties":
+        fetchProperties();
+        break;
     }
   }, [tab]);
 
-
-
-
   // Render the UI for the admin page
   /**
-   * Set of tables that will be populated with the 
+   * Set of tables that will be populated with the
    * data from the database.
    */
   return (
@@ -161,8 +165,6 @@ const AdminPortal: React.FC = () => {
         ))}
       </div>
 
-
-        
       {/* Tabs */}
       <div className="flex justify-center mb-4 gap-2 flex-wrap">
         {["users", "hosts", "tenants", "properties", "bookings"].map((item) => (
@@ -194,13 +196,17 @@ const AdminPortal: React.FC = () => {
               return (
                 <tr key={user.id} className="border-t">
                   <td className="p-2">{user.id}</td>
-                  <td className="p-2">{user.firstName} {user.lastName}</td>
+                  <td className="p-2">
+                    {user.firstName} {user.lastName}
+                  </td>
                   <td className="p-2">{user.email}</td>
                   <td className="p-2">{user.username}</td>
                   <td className="p-2 space-x-2">
                     <Dialog>
                       <DialogTrigger asChild>
-                        <Button variant="outline" size="sm">Edit</Button>
+                        <Button variant="outline" size="sm">
+                          Edit
+                        </Button>
                       </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
@@ -210,20 +216,47 @@ const AdminPortal: React.FC = () => {
                           className="space-y-3"
                           onSubmit={async (e) => {
                             e.preventDefault();
-                            await axios.put(`http://localhost:8080/api/users/${user.id}`, updatedUser);
+                            await axios.put(
+                              `http://localhost:8080/api/users/${user.id}`,
+                              updatedUser
+                            );
                             fetchUsers();
                             fetchStats();
                           }}
                         >
-                          <Input defaultValue={user.firstName} onChange={(e) => updatedUser.firstName = e.target.value} />
-                          <Input defaultValue={user.lastName} onChange={(e) => updatedUser.lastName = e.target.value} />
-                          <Input defaultValue={user.email} onChange={(e) => updatedUser.email = e.target.value} />
-                          <Input defaultValue={user.username} onChange={(e) => updatedUser.username = e.target.value} />
+                          <Input
+                            defaultValue={user.firstName}
+                            onChange={(e) =>
+                              (updatedUser.firstName = e.target.value)
+                            }
+                          />
+                          <Input
+                            defaultValue={user.lastName}
+                            onChange={(e) =>
+                              (updatedUser.lastName = e.target.value)
+                            }
+                          />
+                          <Input
+                            defaultValue={user.email}
+                            onChange={(e) =>
+                              (updatedUser.email = e.target.value)
+                            }
+                          />
+                          <Input
+                            defaultValue={user.username}
+                            onChange={(e) =>
+                              (updatedUser.username = e.target.value)
+                            }
+                          />
                           <Button type="submit">Save</Button>
                         </form>
                       </DialogContent>
                     </Dialog>
-                    <Button variant="destructive" size="sm" onClick={() => deleteUser(user.id)}>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => deleteUser(user.id)}
+                    >
                       Delete
                     </Button>
                   </td>
@@ -242,14 +275,18 @@ const AdminPortal: React.FC = () => {
               <th className="p-2 text-left">Host ID</th>
               <th className="p-2 text-left">Name</th>
               <th className="p-2 text-left">Email</th>
+              <th className="p-2 text-left">Bio</th>
             </tr>
           </thead>
           <tbody>
             {hosts.map((h) => (
-              <tr key={h.hostID} className="border-t">
-                <td className="p-2">{h.hostID}</td>
-                <td className="p-2">{h.user?.firstName} {h.user?.lastName}</td>
+              <tr key={h.id} className="border-t">
+                <td className="p-2">{h.id}</td>
+                <td className="p-2">
+                  {h.user?.firstName} {h.user?.lastName}
+                </td>
                 <td className="p-2">{h.user?.email}</td>
+                <td className="p-2">{h.hostBio}</td>
               </tr>
             ))}
           </tbody>
@@ -264,14 +301,18 @@ const AdminPortal: React.FC = () => {
               <th className="p-2 text-left">Tenant ID</th>
               <th className="p-2 text-left">Name</th>
               <th className="p-2 text-left">Email</th>
+              <th className="p-2 text-left">Bio</th>
             </tr>
           </thead>
           <tbody>
             {tenants.map((t) => (
-              <tr key={t.tenantID} className="border-t">
-                <td className="p-2">{t.tenantID}</td>
-                <td className="p-2">{t.user?.firstName} {t.user?.lastName}</td>
+              <tr key={t.id} className="border-t">
+                <td className="p-2">{t.id}</td>
+                <td className="p-2">
+                  {t.user?.firstName} {t.user?.lastName}
+                </td>
                 <td className="p-2">{t.user?.email}</td>
+                <td className="p-2">{t.tenantBio}</td>
               </tr>
             ))}
           </tbody>
@@ -296,11 +337,15 @@ const AdminPortal: React.FC = () => {
                 <td className="p-2">{p.name}</td>
                 <td className="p-2">{p.location}</td>
                 <td className="p-2">
-                  <Button onClick={() => {
-                    setSelectedPropertyId(p.id);
-                    setTab("bookings");
-                    fetchBookings(p.id);
-                  }}>View</Button>
+                  <Button
+                    onClick={() => {
+                      setSelectedPropertyId(p.id);
+                      setTab("bookings");
+                      fetchBookings(p.id);
+                    }}
+                  >
+                    View
+                  </Button>
                 </td>
               </tr>
             ))}
@@ -311,7 +356,9 @@ const AdminPortal: React.FC = () => {
       {/* Bookings */}
       {tab === "bookings" && selectedPropertyId && (
         <>
-          <h2 className="text-xl font-semibold mb-4">Bookings for Property #{selectedPropertyId}</h2>
+          <h2 className="text-xl font-semibold mb-4">
+            Bookings for Property #{selectedPropertyId}
+          </h2>
           <table className="w-full border text-sm">
             <thead className="bg-gray-100">
               <tr>
