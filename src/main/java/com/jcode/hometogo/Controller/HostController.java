@@ -31,6 +31,10 @@ public class HostController {
     public Property addPropertyToHost(@PathVariable Long hostId, @RequestBody Property property) {
         return hostService.addPropertyToHost(hostId, property);
     }
+    @DeleteMapping("/{hostId}/properties/{propertyId}")
+    public void deletePropertyFromHost(@PathVariable Long hostId, @PathVariable Long propertyId) {
+        hostService.deletePropertyFromHost(hostId, propertyId);
+    }
 
 
 }

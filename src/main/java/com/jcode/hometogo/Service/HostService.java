@@ -6,6 +6,7 @@ import com.jcode.hometogo.Model.Property;
 import com.jcode.hometogo.Model.User;
 import com.jcode.hometogo.Repository.BookingRepository;
 import com.jcode.hometogo.Repository.HostRepository;
+import com.jcode.hometogo.Repository.PropertyRepository;
 import com.jcode.hometogo.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class HostService {
     private final HostRepository hostRepository;
     private final UserRepository userRepository;
     private final BookingRepository bookingRepository;
-
+    private final PropertyRepository propertyRepository;
     public List<Property> getAllProperties(Long hostId) {
         return hostRepository.findById(hostId)
                 .map(host -> host.getProperties())
@@ -52,6 +53,21 @@ public class HostService {
         }
 
         return savedProperty;
+    }
+    public void deletePropertyFromHost(Long hostId, Long propertyId) {
+        Host host = hostRepository.findById(hostId)
+                .orElseThrow(() -> new RuntimeException("Host not found with id " + hostId));
+    
+        Property propertyToRemove = host.getProperties().stream()
+                .filter(prop -> prop.getId().equals(propertyId))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Property not found with id " + propertyId));
+    
+        host.getProperties().remove(propertyToRemove);
+        hostRepository.save(host);
+        
+        // Explicitly delete from PropertyRepository
+        propertyRepository.delete(propertyToRemove);
     }
 
     /// Crud
