@@ -17,7 +17,7 @@ import java.util.List;
 @Entity
 public class Property {
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;

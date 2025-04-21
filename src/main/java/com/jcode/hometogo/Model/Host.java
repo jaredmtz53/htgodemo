@@ -18,7 +18,7 @@ import java.util.List;
 public class Host {
     // Id setup
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String hostBio;
 
