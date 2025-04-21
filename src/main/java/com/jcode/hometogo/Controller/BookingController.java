@@ -2,6 +2,9 @@ package com.jcode.hometogo.Controller;
 
 import com.jcode.hometogo.Model.Booking;
 import com.jcode.hometogo.Service.BookingService;
+import com.jcode.hometogo.dto.BookingResponseDTO;
+import com.jcode.hometogo.Repository.BookingRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,11 +20,11 @@ import java.util.List;
 @RequestMapping("/api/bookings")
 public class BookingController {
     private final BookingService bookingService;
-
-    @GetMapping("/{propertyId}")
+   
+@GetMapping("/{propertyId}")
     public List<Booking> getAllBookings(@PathVariable Long propertyId) {
-        return bookingService.getBookingsByPropertyId(propertyId);
-    }
+       return bookingService.getBookingsByPropertyId(propertyId);
+}
 
     @PostMapping
     public Booking createBooking(@RequestBody Booking booking) {
@@ -32,6 +35,9 @@ public class BookingController {
     public List<Booking> getBookingsByTenantId(@PathVariable Long tenantId) {
         return bookingService.getBookingsByTenantId(tenantId);
     }
-
+    @GetMapping("/property/{propertyId}")
+    public List<BookingResponseDTO> getBookingsForProperty(@PathVariable Long propertyId) {
+        return bookingService.getBookingsForProperty(propertyId);
+   }
 
 }

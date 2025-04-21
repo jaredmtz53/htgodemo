@@ -7,6 +7,8 @@ import com.jcode.hometogo.Repository.BookingRepository;
 import com.jcode.hometogo.Repository.HostRepository;
 import com.jcode.hometogo.Repository.PropertyRepository; // Added import for PropertyRepository
 import com.jcode.hometogo.Repository.TenantRepository; // Added import for TenantRepository
+import com.jcode.hometogo.dto.BookingResponseDTO;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -50,6 +52,12 @@ public class BookingService {
     public List<Booking> getBookingsByTenantId(Long tenantId) {
         return bookingRepository.findByTenant_Id(tenantId);
     }
+  
+    public List<BookingResponseDTO> getBookingsForProperty(Long propertyId) {
+        List<Booking> bookings = bookingRepository.findAllByPropertyIdWithNames(propertyId);
+        return bookings.stream().map(BookingResponseDTO::new).toList();
+    }
+    
     
 
 }
