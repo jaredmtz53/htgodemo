@@ -287,24 +287,28 @@ const fetchReports = async () => {
                       fetchStats();
                     }}
                   >
+                    New First Name:
                     <Input
                       defaultValue={user.firstName}
                       onChange={(e) =>
                         (updatedUser.firstName = e.target.value)
                       }
                     />
+                    New Last Name:
                     <Input
                       defaultValue={user.lastName}
                       onChange={(e) =>
                         (updatedUser.lastName = e.target.value)
                       }
                     />
+                    Updated Email:
                     <Input
                       defaultValue={user.email}
                       onChange={(e) =>
                         (updatedUser.email = e.target.value)
                       }
                     />
+                    Updated Username:
                     <Input
                       defaultValue={user.username}
                       onChange={(e) =>
