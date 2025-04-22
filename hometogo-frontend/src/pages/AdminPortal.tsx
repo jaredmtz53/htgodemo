@@ -110,6 +110,7 @@ const fetchReports = async () => {
     properties: 0,
     //bookings: 0,
     banned: 0,
+    reports: 0,
   });
 
   // Meant to fetch stats and gather them
@@ -127,6 +128,7 @@ const fetchReports = async () => {
       properties: p.data.length,
       // bookings: 0,
       banned: bannedUsers.length,
+      reports: reports.length,
     });
   };
 
