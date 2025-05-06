@@ -21,6 +21,11 @@ public class Property {
     private Long id;
 
     private String title;
+    private String description;
+    private String address;
+    private String price;
+    private String image;
+   
 
     @ManyToOne
     @JoinColumn(name = "host_id")
@@ -31,6 +36,7 @@ public class Property {
     @JsonManagedReference("property-booking")
     private List<Booking> bookings;
 
+    
 
 
 }

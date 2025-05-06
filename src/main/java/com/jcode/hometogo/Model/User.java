@@ -16,8 +16,8 @@ import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
 @Entity
 public class User {
     @Id
-    @GeneratedValue
-    private long id;
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private Long id;
     private String googleSub;
     private String firstName;
     private String lastName;
