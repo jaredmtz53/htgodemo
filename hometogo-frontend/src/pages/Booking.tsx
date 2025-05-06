@@ -4,6 +4,7 @@ import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
+// Booking components
 type Booking = {
   startDate: string;
   endDate: string;
@@ -11,9 +12,11 @@ type Booking = {
   tenantId: number;
 };
 
+// Booking function
 const Booking: React.FC = () => {
   const { propertyId } = useParams();
 
+  // Initialize booking form
   const [booking, setBooking] = useState<Booking>({
     startDate: "",
     endDate: "",
@@ -21,9 +24,10 @@ const Booking: React.FC = () => {
     tenantId: 0,
   });
 
+  // Hold submitted booking
   const [submittedBooking, setSubmittedBooking] = useState<Booking | null>(null);
 
-  // Auto-fill tenantId from localStorage
+  // Auto-fill tenantId from localStorage (Tenant ID 2) 
   useEffect(() => {
     const storedTenantId = Number(localStorage.getItem("tenantId"));
     if (storedTenantId) {
@@ -36,13 +40,18 @@ const Booking: React.FC = () => {
     setBooking({ ...booking, [name]: name.includes("Id") ? Number(value) : value });
   };
 
+  // Handles and saves booking submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("🚨 Form submitted!");
-    console.log("📦 Payload:", booking); // 👈 to see what you're submitting
+    console.log("📦 Payload:", booking); 
   
     try {
-      const res = await axios.post("http://localhost:8080/api/bookings", booking);
+      const res = await axios.post("http://localhost:8080/api/bookings", booking, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       console.log("✅ Success:", res.data);
       setSubmittedBooking(res.data);
     } catch (err) {
@@ -51,6 +60,8 @@ const Booking: React.FC = () => {
   };
   
   
+  
+  // Html booking form 
   return (
     <div className="max-w-md mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4 text-center">Book this house!</h1>
@@ -122,6 +133,7 @@ const Booking: React.FC = () => {
         </Button>
       </form>
 
+      {/* Show submitted booking */}           
       {submittedBooking && (
         <div className="mt-6 border p-4 rounded bg-gray-50">
           <h2 className="font-semibold text-lg mb-2 text-center">

@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDate;
 
 @Entity
@@ -34,7 +34,8 @@ public class Booking {
     @JsonBackReference("property-booking")
     private Property property;
 
-    // ✅ These are NOT persisted, just used for request payload
+
+    
     @Transient
     private Long tenantId;
 

@@ -2,11 +2,11 @@ package com.jcode.hometogo.Service;
 
 import com.jcode.hometogo.Model.Booking;
 import com.jcode.hometogo.Model.Property;
-import com.jcode.hometogo.Model.Tenant; // Added import for Tenant
+import com.jcode.hometogo.Model.Tenant; 
 import com.jcode.hometogo.Repository.BookingRepository;
 import com.jcode.hometogo.Repository.HostRepository;
-import com.jcode.hometogo.Repository.PropertyRepository; // Added import for PropertyRepository
-import com.jcode.hometogo.Repository.TenantRepository; // Added import for TenantRepository
+import com.jcode.hometogo.Repository.PropertyRepository; 
+import com.jcode.hometogo.Repository.TenantRepository; 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +16,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookingService {
     private final BookingRepository bookingRepository;
-    private final PropertyRepository propertyRepository; // Injected PropertyRepository
-    private final TenantRepository tenantRepository; // Injected TenantRepository
+    private final PropertyRepository propertyRepository; 
+    private final TenantRepository tenantRepository; 
 
 
     public List<Booking> getBookingsByPropertyId(Long propertyId) {
@@ -25,8 +25,7 @@ public class BookingService {
     }
 
     public Booking createBooking(Booking bookingData) {
-        // Use bookingData.getTenantId() for now
-        Long tenantId = bookingData.getTenantId(); // later: get from logged-in user
+        Long tenantId = bookingData.getTenantId();
         Long propertyId = bookingData.getPropertyId();
     
         Tenant tenant = tenantRepository.findById(tenantId)
@@ -42,7 +41,13 @@ public class BookingService {
         booking.setProperty(property);
         booking.setBooked(true);
     
-        return bookingRepository.save(booking);
+        
+        Booking savedBooking = bookingRepository.save(booking);
+    
+        savedBooking.setTenantId(tenantId);
+        savedBooking.setPropertyId(propertyId);
+    
+        return savedBooking;
     }
     
     

@@ -1,21 +1,23 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+
+// Booking components
 type Booking = {
   id: number;
   startDate: string;
   endDate: string;
   property: {
     id: number;
-    name: string;
-    location: string;
+    // title: string;
   };
 };
 
+// Tenant ID is stored in localStorage (2) and list all bookings for that tenant
 const MyBookings: React.FC = () => {
-  const tenantId = Number(localStorage.getItem("tenantId")); // ✅ dynamic
+  const tenantId = Number(localStorage.getItem("tenantId")); 
   const [bookings, setBookings] = useState<Booking[]>([]);
-  const [loading, setLoading] = useState(true); // optional
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     if (!tenantId) {
@@ -31,6 +33,8 @@ const MyBookings: React.FC = () => {
       .finally(() => setLoading(false));
   }, [tenantId]);
 
+
+  // Html MyBookings
   return (
     <div className="max-w-3xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4 text-center">My Bookings</h1>
@@ -56,14 +60,13 @@ const MyBookings: React.FC = () => {
       <td className="p-2">{b.startDate}</td>
       <td className="p-2">{b.endDate}</td>
       <td className="p-2">
-        {/* ✅ Always show property ID; optionally name & location */}
-        #{b.property?.id}
-        {b.property?.name && ` — ${b.property.name}`}
-        {b.property?.location && ` — ${b.property.location}`}
+        Property ID: {b.property?.id}<br />
+    
       </td>
     </tr>
   ))}
 </tbody>
+
 
         </table>
       )}

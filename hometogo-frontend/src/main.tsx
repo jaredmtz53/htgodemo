@@ -13,6 +13,7 @@ import Booking from './pages/Booking.tsx'
 import MyBookings from "./pages/MyBookings.tsx";
 import AdminPortal from './pages/AdminPortal.tsx'
 import LogOn from './pages/LogOn.tsx'
+import Review from './pages/Review.tsx'
 
 
 const Layout = () => (
@@ -34,7 +35,8 @@ const router = createBrowserRouter([
       { path: 'booking/:propertyId', element: <Booking /> },
       { path: 'mybookings', element: <MyBookings /> },
       { path: 'Admin', element: <AdminPortal />}, 
-      { path: 'Logon', element: <LogOn />}
+      { path: 'Logon', element: <LogOn />},
+      { path: 'review', element: <Review />},
       
     ]
   }
