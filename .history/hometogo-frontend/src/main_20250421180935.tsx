@@ -9,13 +9,15 @@ import Role from './pages/Role.tsx'
 import Landing from './pages/Landing.tsx'
 import Properties from './pages/Properties.tsx'
 import { Outlet } from 'react-router-dom'
+<<<<<<< HEAD
 import PropertyDetails from './pages/PropertyDetails.tsx'
+=======
 import Booking from './pages/Booking.tsx'
 import MyBookings from "./pages/MyBookings.tsx";
 import AdminPortal from './pages/AdminPortal.tsx'
 import LogOn from './pages/LogOn.tsx'
-import Profile from './pages/Profile.tsx'
 
+>>>>>>> fff73094666afef332d76f237f7d06c7d4542e43
 
 const Layout = () => (
   <>
@@ -37,9 +39,7 @@ const router = createBrowserRouter([
       { path: 'booking/:propertyId', element: <Booking /> },
       { path: 'mybookings', element: <MyBookings /> },
       { path: 'Admin', element: <AdminPortal />}, 
-      { path: 'Logon', element: <LogOn />},
-      {path: 'profile/:id', element: <Profile />},
-
+      { path: 'Logon', element: <LogOn />}
       
     ]
   }
