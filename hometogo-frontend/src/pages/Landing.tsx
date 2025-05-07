@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useNavigate, Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 function Landing() {
   const [properties, setProperties] = useState([]);
@@ -56,6 +57,7 @@ function Landing() {
                 <button className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
                   View Reviews
                 </button>
+
               </Link>
 
               {/* Write Review */}
@@ -71,6 +73,24 @@ function Landing() {
           </Card>
         ))}
       </div>
+{/* Footer */}
+<footer className="bg-gray-800 text-white py-4 mt-8">
+        <div className="flex justify-center">
+          <Button
+            variant="default"
+            className="bg-blue-600 hover:bg-blue-700"
+            onClick={() => navigate("/admin")}
+          >
+            Admin Portal
+          </Button>
+        </div>
+      </footer>
+
+
+
+
+
+
     </div>
   );
 }
