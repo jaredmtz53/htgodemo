@@ -72,7 +72,7 @@ function Landing() {
             className="bg-blue-600 hover:bg-blue-700"
             onClick={() => navigate("/admin")}
           >
-            Go to Admin Portal
+            Admin Portal
           </Button>
         </div>
       </footer>
