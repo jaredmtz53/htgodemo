@@ -36,8 +36,8 @@ function Header() {
       </Link>
       
       <div className="flex items-center gap-5">
-        <Link to={`/properties/${userId}`}>
-          <Button className="cursor-pointer">My Properties</Button>
+        <Link to={`/properties/${1}`}>
+          <Button className="cursor-pointer">Add properties</Button>
         </Link>
         <Button className="cursor-pointer" onClick={() => navigate("/mybookings")}>
           My Bookings

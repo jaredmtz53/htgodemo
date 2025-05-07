@@ -59,8 +59,6 @@ const Booking: React.FC = () => {
     }
   };
   
-  
-  
   // Html booking form 
   return (
     <div className="max-w-md mx-auto p-6">

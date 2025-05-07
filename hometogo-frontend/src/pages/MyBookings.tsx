@@ -1,48 +1,60 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 
-
-// Booking components
 type Booking = {
   id: number;
   startDate: string;
   endDate: string;
   property: {
     id: number;
-    // title: string;
   };
 };
 
-// Tenant ID is stored in localStorage (2) and list all bookings for that tenant
 const MyBookings: React.FC = () => {
-  const tenantId = Number(localStorage.getItem("tenantId")); 
+  const [tenantIdInput, setTenantIdInput] = useState("");
   const [bookings, setBookings] = useState<Booking[]>([]);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const tenantId = Number(tenantIdInput);
     if (!tenantId) {
-      console.warn("⚠️ No tenantId found in localStorage");
-      setLoading(false);
+      alert("Please enter a valid tenant ID.");
       return;
     }
 
-    axios
-      .get(`http://localhost:8080/api/bookings/tenant/${tenantId}`)
-      .then((res) => setBookings(res.data))
-      .catch((err) => console.error("Error fetching bookings:", err))
-      .finally(() => setLoading(false));
-  }, [tenantId]);
+    setLoading(true);
+    try {
+      const res = await axios.get(`http://localhost:8080/api/bookings/tenant/${tenantId}`);
+      setBookings(res.data);
+    } catch (err) {
+      console.error("Error fetching bookings:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-
-  // Html MyBookings
   return (
     <div className="max-w-3xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4 text-center">My Bookings</h1>
 
+      <form onSubmit={handleSubmit} className="mb-6 text-center">
+        <input
+          type="number"
+          placeholder="Enter your tenant ID"
+          value={tenantIdInput}
+          onChange={(e) => setTenantIdInput(e.target.value)}
+          className="border px-3 py-2 rounded mr-2"
+        />
+        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+          Bookings
+        </button>
+      </form>
+
       {loading ? (
         <p className="text-center">Loading your bookings...</p>
       ) : bookings.length === 0 ? (
-        <p className="text-center">You haven't made any bookings yet.</p>
+        <p className="text-center">No bookings found for that tenant ID.</p>
       ) : (
         <table className="w-full border text-sm">
           <thead className="bg-gray-100">
@@ -50,24 +62,19 @@ const MyBookings: React.FC = () => {
               <th className="p-2 text-left">Booking ID</th>
               <th className="p-2 text-left">Start Date</th>
               <th className="p-2 text-left">End Date</th>
-              <th className="p-2 text-left">Property</th>
+              <th className="p-2 text-left">Property ID</th>
             </tr>
           </thead>
           <tbody>
-  {bookings.map((b) => (
-    <tr key={b.id} className="border-t">
-      <td className="p-2">{b.id}</td>
-      <td className="p-2">{b.startDate}</td>
-      <td className="p-2">{b.endDate}</td>
-      <td className="p-2">
-        Property ID: {b.property?.id}<br />
-    
-      </td>
-    </tr>
-  ))}
-</tbody>
-
-
+            {bookings.map((b) => (
+              <tr key={b.id} className="border-t">
+                <td className="p-2">{b.id}</td>
+                <td className="p-2">{b.startDate}</td>
+                <td className="p-2">{b.endDate}</td>
+                <td className="p-2">{b.property?.id}</td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       )}
     </div>
