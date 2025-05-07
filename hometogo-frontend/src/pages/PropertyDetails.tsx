@@ -14,7 +14,8 @@ import {
 } from "@/components/ui/card";
 function PropertyDetails() {
    const { id } = useParams();
-   const [property, setProperty] = React.useState<any>(null);  const [showForm, setShowForm] = React.useState(false);
+   const [property, setProperty] = React.useState<any>(null);  
+   const [showForm, setShowForm] = React.useState(false);
   useEffect(() => {
     axios
       .get(`http://localhost:8080/api/properties/${id}`)

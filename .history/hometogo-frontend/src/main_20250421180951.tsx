@@ -14,11 +14,6 @@ import Booking from './pages/Booking.tsx'
 import MyBookings from "./pages/MyBookings.tsx";
 import AdminPortal from './pages/AdminPortal.tsx'
 import LogOn from './pages/LogOn.tsx'
-<<<<<<< HEAD
-import Review from './pages/Review.tsx'
-=======
-import Profile from './pages/Profile.tsx'
->>>>>>> a30a8a1167eb8e74afb611181638381ed6885793
 
 
 const Layout = () => (
@@ -41,13 +36,7 @@ const router = createBrowserRouter([
       { path: 'booking/:propertyId', element: <Booking /> },
       { path: 'mybookings', element: <MyBookings /> },
       { path: 'Admin', element: <AdminPortal />}, 
-      { path: 'Logon', element: <LogOn />},
-<<<<<<< HEAD
-      { path: 'review', element: <Review />},
-=======
-      {path: 'profile/:id', element: <Profile />},
-
->>>>>>> a30a8a1167eb8e74afb611181638381ed6885793
+      { path: 'Logon', element: <LogOn />}
       
     ]
   }

@@ -39,25 +39,11 @@ function Header() {
         <Link to={`/properties/${userId}`}>
           <Button className="cursor-pointer">My Properties</Button>
         </Link>
-        <Button className="cursor-pointer" onClick={() => navigate("/mybookings")}>
-          My Bookings
-          </Button>
-        
-        <Button className="cursor-pointer" onClick={() => navigate("/booking/:propertyId")}>
-          Book Now!
-          </Button>
-
-        <Button className="cursor-pointer" onClick={() => navigate("/LogOn")}>
+        <Button className="cursor-pointer">My Bookings</Button>
+        <Button className="cursor-pointer">
           {signedIn ? "Signed In" : "Sign In"}
         </Button>
-
-
-        <Link to={`/profile/${userId}`}> 
         <CgProfile className="size-10 cursor-pointer" />
-        </Link>
-        
-
-
       </div>
     </div>
   );

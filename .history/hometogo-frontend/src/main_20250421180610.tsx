@@ -9,17 +9,15 @@ import Role from './pages/Role.tsx'
 import Landing from './pages/Landing.tsx'
 import Properties from './pages/Properties.tsx'
 import { Outlet } from 'react-router-dom'
+<<<<<<< HEAD
 import PropertyDetails from './pages/PropertyDetails.tsx'
+=======
 import Booking from './pages/Booking.tsx'
 import MyBookings from "./pages/MyBookings.tsx";
 import AdminPortal from './pages/AdminPortal.tsx'
 import LogOn from './pages/LogOn.tsx'
-<<<<<<< HEAD
-import Review from './pages/Review.tsx'
-=======
-import Profile from './pages/Profile.tsx'
->>>>>>> a30a8a1167eb8e74afb611181638381ed6885793
 
+>>>>>>> fff73094666afef332d76f237f7d06c7d4542e43
 
 const Layout = () => (
   <>
@@ -37,18 +35,15 @@ const router = createBrowserRouter([
       { path: 'properties', element: <Properties /> },
       { path: 'Role', element: <Role /> },
       { path: 'landing', element: <Landing /> },
+<<<<<<< HEAD
       {path: 'properties/:id', element: <PropertyDetails />},
+=======
       { path: 'booking/:propertyId', element: <Booking /> },
       { path: 'mybookings', element: <MyBookings /> },
       { path: 'Admin', element: <AdminPortal />}, 
-      { path: 'Logon', element: <LogOn />},
-<<<<<<< HEAD
-      { path: 'review', element: <Review />},
-=======
-      {path: 'profile/:id', element: <Profile />},
-
->>>>>>> a30a8a1167eb8e74afb611181638381ed6885793
+      { path: 'Logon', element: <LogOn />}
       
+>>>>>>> fff73094666afef332d76f237f7d06c7d4542e43
     ]
   }
 ])

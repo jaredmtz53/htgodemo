@@ -47,17 +47,13 @@ function Header() {
           Book Now!
           </Button>
 
+
+
+
         <Button className="cursor-pointer" onClick={() => navigate("/LogOn")}>
           {signedIn ? "Signed In" : "Sign In"}
         </Button>
-
-
-        <Link to={`/profile/${userId}`}> 
         <CgProfile className="size-10 cursor-pointer" />
-        </Link>
-        
-
-
       </div>
     </div>
   );
