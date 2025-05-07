@@ -45,7 +45,7 @@ const router = createBrowserRouter([
      { path: 'Logon', element: <LogOn />},
      { path: 'review/:propertyId', element: <Review /> },
      { path: 'reviews/:propertyId', element: <ViewReviews />},
-     { path: 'profile/:userId', element: <Profile/ > },
+     { path: 'profile/:id', element: <Profile/ > },
    ]
  }
 ])

@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect } from "react";
-import { set } from "react-hook-form";
 import { useParams } from "react-router-dom";
 
 function Profile() {
