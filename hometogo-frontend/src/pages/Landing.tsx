@@ -1,5 +1,4 @@
-import LandingGrid from "@/components/custom/LandingGrid";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
   Card,
@@ -9,9 +8,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+
 function Landing() {
-  const [properties, setProperties] = React.useState([]);
+  const [properties, setProperties] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,23 +28,36 @@ function Landing() {
 
   const handlePropertyClick = (propertyId: number) => {
     navigate(`/properties/${propertyId}`);
-  }
+  };
 
   return (
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
         {properties.map((property: any) => (
-          <Card onClick={() => handlePropertyClick(property.id)} key={property.id}>
-            <CardHeader>
+          <Card key={property.id} className="cursor-pointer">
+            {/* Clicking header navigates to property page */}
+            <CardHeader onClick={() => handlePropertyClick(property.id)}>
               <CardTitle>{property.title}</CardTitle>
               <CardDescription>{property.description}</CardDescription>
             </CardHeader>
-            <CardContent>
+
+            <CardContent onClick={() => handlePropertyClick(property.id)}>
               <img src={property.image} alt="" />
               <p>{property.address}</p>
             </CardContent>
-            <CardFooter>
+
+            <CardFooter className="flex flex-col gap-2">
               <p>{property.price}$ per night</p>
+
+              {/* ✅ Reviews button with event stop */}
+              <Link
+                to={`/reviews/${property.id}`}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+                  View Reviews
+                </button>
+              </Link>
             </CardFooter>
           </Card>
         ))}
