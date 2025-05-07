@@ -9,6 +9,19 @@
 > Allows homeowners to list their house for rental. Both parties are allowed to leave reviews on the
 > house/stay and the guest themselves. Also provides a list of affordable activities for guests in the 
 > location. 
+# RUNNING THE PROJECT
+> To run the front end of the project, change directory to frontend using the following:
+```
+cd hometogo-frontend
+```
+> When in the directory run the following command (Make sure to have node js and react installed on your system):
+```
+npm run dev
+```
+> Then open ampps.
+> Create a database with the name hometogo and import the sql file provided.
+> Finally, run the the crud api.
+> To access services make sure to log in with google.
 
 # App Functions
 1. Customer (House renter):
