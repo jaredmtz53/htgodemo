@@ -16,6 +16,7 @@ import AdminPortal from './pages/AdminPortal.tsx'
 import LogOn from './pages/LogOn.tsx'
 import Review from './pages/Review.tsx'
 import ViewReviews from './pages/ViewReviews.tsx'
+import Profile from './pages/Profile.tsx'
 
 
 
@@ -42,9 +43,9 @@ const router = createBrowserRouter([
      { path: 'mybookings', element: <MyBookings /> },
      { path: 'Admin', element: <AdminPortal />},
      { path: 'Logon', element: <LogOn />},
-     { path: 'review', element: <Review />},
+     { path: 'review/:propertyId', element: <Review /> },
      { path: 'reviews/:propertyId', element: <ViewReviews />},
-     { path: 'profile/:userId', element: <div>Profile</div> },
+     { path: 'profile/:userId', element: <Profile/ > },
    ]
  }
 ])

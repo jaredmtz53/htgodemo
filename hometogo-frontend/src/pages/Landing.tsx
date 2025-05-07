@@ -35,7 +35,6 @@ function Landing() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
         {properties.map((property: any) => (
           <Card key={property.id} className="cursor-pointer">
-            {/* Clicking header navigates to property page */}
             <CardHeader onClick={() => handlePropertyClick(property.id)}>
               <CardTitle>{property.title}</CardTitle>
               <CardDescription>{property.description}</CardDescription>
@@ -49,13 +48,23 @@ function Landing() {
             <CardFooter className="flex flex-col gap-2">
               <p>{property.price}$ per night</p>
 
-              {/* ✅ Reviews button with event stop */}
+              {/* View Reviews */}
               <Link
                 to={`/reviews/${property.id}`}
                 onClick={(e) => e.stopPropagation()}
               >
                 <button className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
                   View Reviews
+                </button>
+              </Link>
+
+              {/* Write Review */}
+              <Link
+                to={`/review/${property.id}`}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button className="w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">
+                  Write a Review
                 </button>
               </Link>
             </CardFooter>

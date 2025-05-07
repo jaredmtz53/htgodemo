@@ -1,9 +1,12 @@
+// src/pages/Review.tsx
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useParams } from "react-router-dom";
 
-// Review components
+// Review types
 type ReviewData = {
   content: string;
   rating: number;
@@ -12,10 +15,8 @@ type ReviewData = {
   propertyId: number;
 };
 
-// Review function
 const Review: React.FC = () => {
-
-  // Initialize review form
+  const { propertyId } = useParams();
   const [review, setReview] = useState<ReviewData>({
     content: "",
     rating: 0,
@@ -24,28 +25,26 @@ const Review: React.FC = () => {
     propertyId: 0,
   });
 
-  // Hold submitted review
   const [submittedReview, setSubmittedReview] = useState<ReviewData | null>(null);
 
-  // Auto-fill tenantId from localStorage (Tenant ID 2) 
   useEffect(() => {
     const tenantId = Number(localStorage.getItem("tenantId")) || 2;
     setReview((prev) => ({
       ...prev,
       tenantId,
       reviewerId: tenantId,
+      propertyId: Number(propertyId),
     }));
-  }, []);
+  }, [propertyId]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setReview({
       ...review,
-      [name]: name === "rating" || name === "propertyId" ? Number(value) : value,
+      [name]: name === "rating" ? Number(value) : value,
     });
   };
 
-  // Handles and saves review submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("🚨 Submitting review:", review);
@@ -65,8 +64,6 @@ const Review: React.FC = () => {
     }
   };
 
-
-  // Html review form
   return (
     <div className="max-w-md mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4 text-center">Leave a Review</h1>
@@ -103,35 +100,6 @@ const Review: React.FC = () => {
             onChange={handleChange}
             className="w-full border border-gray-300 rounded p-2"
             required
-          />
-        </div>
-
-        {/* Property ID (user input) */}
-        <div>
-          <label htmlFor="propertyId" className="block mb-1 font-medium">
-            Property ID
-          </label>
-          <Input
-            type="number"
-            id="propertyId"
-            name="propertyId"
-            value={review.propertyId}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        {/* Tenant ID (read-only) */}
-        <div>
-          <label htmlFor="tenantId" className="block mb-1 font-medium">
-            Tenant ID
-          </label>
-          <Input
-            type="number"
-            id="tenantId"
-            name="tenantId"
-            value={review.tenantId}
-            readOnly
           />
         </div>
 
