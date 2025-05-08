@@ -76,7 +76,6 @@ const AdminPortal: React.FC = () => {
     "users" | "hosts" | "tenants" | "properties" | "banned" | "reports"
   >("users");
 
-
   // data states for the enties that Admin is to modrate
   const [users, setUsers] = useState<User[]>([]);
   const [hosts, setHosts] = useState<Host[]>([]);
@@ -87,20 +86,12 @@ const AdminPortal: React.FC = () => {
     null
   );
 
-// REPORTS !!!
-const [reports, setReports] = useState<any[]>([]);
-const fetchReports = async () => {
-  const res = await axios.get("http://localhost:8080/api/reports");
-  setReports(res.data);
-};
-
-
-
-
-
-
-
-
+  // REPORTS !!!
+  const [reports, setReports] = useState<any[]>([]);
+  const fetchReports = async () => {
+    const res = await axios.get("http://localhost:8080/api/reports");
+    setReports(res.data);
+  };
 
   // Data states intened to keeping stats and other anlytics, meant for show, required by teacher guidlines
   const [stats, setStats] = useState({
@@ -202,7 +193,7 @@ const fetchReports = async () => {
         fetchBannedUsers();
         break;
       case "reports":
-          fetchReports();
+        fetchReports();
         break;
     }
   }, [tab]); // <-- leave only this
@@ -245,113 +236,113 @@ const fetchReports = async () => {
       </div>
 
       {tab === "users" && (
-  <table className="w-full border text-sm">
-    <thead className="bg-gray-100">
-      <tr>
-        <th className="p-2 text-left">ID</th>
-        <th className="p-2 text-left">Name</th>
-        <th className="p-2 text-left">Email</th>
-        <th className="p-2 text-left">Username</th>
-        <th className="p-2 text-left">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {users.map((user) => {
-        const updatedUser = { ...user };
-        return (
-          <tr key={user.id} className="border-t">
-            <td className="p-2">{user.id}</td>
-            <td className="p-2">
-              {user.firstName} {user.lastName}
-            </td>
-            <td className="p-2">{user.email}</td>
-            <td className="p-2">{user.username}</td>
-            <td className="p-2 space-x-2">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant="outline" size="sm">
-                    Edit
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Edit User</DialogTitle>
-                  </DialogHeader>
-                  <form
-                    className="space-y-3"
-                    onSubmit={async (e) => {
-                      e.preventDefault();
-                      await axios.put(
-                        `http://localhost:8080/api/users/${user.id}`,
-                        updatedUser
-                      );
-                      fetchUsers();
-                      fetchStats();
-                    }}
-                  >
-                    New First Name:
-                    <Input
-                      defaultValue={user.firstName}
-                      onChange={(e) =>
-                        (updatedUser.firstName = e.target.value)
-                      }
-                    />
-                    New Last Name:
-                    <Input
-                      defaultValue={user.lastName}
-                      onChange={(e) =>
-                        (updatedUser.lastName = e.target.value)
-                      }
-                    />
-                    Updated Email:
-                    <Input
-                      defaultValue={user.email}
-                      onChange={(e) =>
-                        (updatedUser.email = e.target.value)
-                      }
-                    />
-                    Updated Username:
-                    <Input
-                      defaultValue={user.username}
-                      onChange={(e) =>
-                        (updatedUser.username = e.target.value)
-                      }
-                    />
-                    <Button type="submit">Save</Button>
-                  </form>
-                </DialogContent>
-              </Dialog>
+        <table className="w-full border text-sm">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="p-2 text-left">ID</th>
+              <th className="p-2 text-left">Name</th>
+              <th className="p-2 text-left">Email</th>
+              <th className="p-2 text-left">Username</th>
+              <th className="p-2 text-left">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => {
+              const updatedUser = { ...user };
+              return (
+                <tr key={user.id} className="border-t">
+                  <td className="p-2">{user.id}</td>
+                  <td className="p-2">
+                    {user.firstName} {user.lastName}
+                  </td>
+                  <td className="p-2">{user.email}</td>
+                  <td className="p-2">{user.username}</td>
+                  <td className="p-2 space-x-2">
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button variant="outline" size="sm">
+                          Edit
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Edit User</DialogTitle>
+                        </DialogHeader>
+                        <form
+                          className="space-y-3"
+                          onSubmit={async (e) => {
+                            e.preventDefault();
+                            await axios.put(
+                              `http://localhost:8080/api/users/${user.id}`,
+                              updatedUser
+                            );
+                            fetchUsers();
+                            fetchStats();
+                          }}
+                        >
+                          New First Name:
+                          <Input
+                            defaultValue={user.firstName}
+                            onChange={(e) =>
+                              (updatedUser.firstName = e.target.value)
+                            }
+                          />
+                          New Last Name:
+                          <Input
+                            defaultValue={user.lastName}
+                            onChange={(e) =>
+                              (updatedUser.lastName = e.target.value)
+                            }
+                          />
+                          Updated Email:
+                          <Input
+                            defaultValue={user.email}
+                            onChange={(e) =>
+                              (updatedUser.email = e.target.value)
+                            }
+                          />
+                          Updated Username:
+                          <Input
+                            defaultValue={user.username}
+                            onChange={(e) =>
+                              (updatedUser.username = e.target.value)
+                            }
+                          />
+                          <Button type="submit">Save</Button>
+                        </form>
+                      </DialogContent>
+                    </Dialog>
 
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={() => deleteUser(user.id)}
-              >
-                Delete
-              </Button>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => deleteUser(user.id)}
+                    >
+                      Delete
+                    </Button>
 
-              {/* Ban button - only visible if not already banned */}
-              {!user.banned && (
-                <Button
-                  className="bg-red-600 hover:bg-red-700 text-white"
-                  size="sm"
-                  onClick={async () => {
-                    await axios.put(
-                      `http://localhost:8080/api/users/${user.id}/ban`
-                    );
-                    fetchUsers();
-                  }}
-                >
-                  Ban
-                </Button>
-              )}
-            </td>
-          </tr>
-        );
-      })}
-    </tbody>
-  </table>
-)}
+                    {/* Ban button - only visible if not already banned */}
+                    {!user.banned && (
+                      <Button
+                        className="bg-red-600 hover:bg-red-700 text-white"
+                        size="sm"
+                        onClick={async () => {
+                          await axios.put(
+                            `http://localhost:8080/api/users/${user.id}/ban`
+                          );
+                          fetchUsers();
+                        }}
+                      >
+                        Ban
+                      </Button>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
 
       {/* Hosts */}
       {tab === "hosts" && (
@@ -432,46 +423,49 @@ const fetchReports = async () => {
         </table>
       )}
 
-{tab === "reports" && (
-  <table className="w-full border text-sm">
-    <thead className="bg-gray-100">
-      <tr>
-        <th className="p-2 text-left">Report ID</th>
-        <th className="p-2 text-left">Reporter</th>
-        <th className="p-2 text-left">Reported</th>
-        <th className="p-2 text-left">Message</th>
-        <th className="p-2 text-left">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {reports.map((r) => (
-        <tr key={r.id} className="border-t">
-          <td className="p-2">{r.id}</td>
-          <td className="p-2">
-            {r.reporter?.firstName} {r.reporter?.lastName}
-          </td>
-          <td className="p-2">
-            {r.reported?.firstName} {r.reported?.lastName}
-          </td>
-          <td className="p-2">{r.message}</td>
-          <td className="p-2">
-            <Button
-              size="sm"
-              variant="destructive"
-              onClick={async () => {
-                await axios.delete(`http://localhost:8080/api/reports/${r.id}`);
-                setReports((prev) => prev.filter((rep) => rep.id !== r.id));
-              }}
-            >
-              Delete
-            </Button>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-)}
-
+      {tab === "reports" && (
+        <table className="w-full border text-sm">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="p-2 text-left">Report ID</th>
+              <th className="p-2 text-left">Reporter</th>
+              <th className="p-2 text-left">Reported</th>
+              <th className="p-2 text-left">Message</th>
+              <th className="p-2 text-left">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {reports.map((r) => (
+              <tr key={r.id} className="border-t">
+                <td className="p-2">{r.id}</td>
+                <td className="p-2">
+                  {r.reporter?.firstName} {r.reporter?.lastName}
+                </td>
+                <td className="p-2">
+                  {r.reported?.firstName} {r.reported?.lastName}
+                </td>
+                <td className="p-2">{r.message}</td>
+                <td className="p-2">
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    onClick={async () => {
+                      await axios.delete(
+                        `http://localhost:8080/api/reports/${r.id}`
+                      );
+                      setReports((prev) =>
+                        prev.filter((rep) => rep.id !== r.id)
+                      );
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
 
       {tab === "banned" && (
         <table className="w-full border text-sm">

@@ -6,8 +6,8 @@ function Profile() {
   const { id } = useParams();
   const [user, setUser] = React.useState<any>(null);
   const [isEditing, setIsEditing] = React.useState(false);
-  const [editedFirstName, setEditedFirstName] = React.useState('');
-  const [editedLastName, setEditedLastName] = React.useState('');
+  const [editedFirstName, setEditedFirstName] = React.useState("");
+  const [editedLastName, setEditedLastName] = React.useState("");
 
   useEffect(() => {
     axios
@@ -67,18 +67,33 @@ function Profile() {
           </>
         ) : (
           <>
-            <p className="mb-4"><span className="font-semibold">First Name:</span> {user.firstName}</p>
-            <p className="mb-4"><span className="font-semibold">Last Name:</span> {user.lastName}</p>
+            <p className="mb-4">
+              <span className="font-semibold">First Name:</span>{" "}
+              {user.firstName}
+            </p>
+            <p className="mb-4">
+              <span className="font-semibold">Last Name:</span> {user.lastName}
+            </p>
           </>
         )}
-        <p className="mb-6"><span className="font-semibold">Email:</span> {user.email}</p>
-        <p className="mb-6"><span className="font-semibold">ID:</span> {user.id}</p>
+        <p className="mb-6">
+          <span className="font-semibold">Email:</span> {user.email}
+        </p>
+        <p className="mb-6">
+          <span className="font-semibold">ID:</span> {user.id}
+        </p>
         {isEditing ? (
-          <button onClick={handleSave} className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded">
+          <button
+            onClick={handleSave}
+            className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded"
+          >
             Save
           </button>
         ) : (
-          <button onClick={() => setIsEditing(true)} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
+          <button
+            onClick={() => setIsEditing(true)}
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+          >
             Edit Profile
           </button>
         )}

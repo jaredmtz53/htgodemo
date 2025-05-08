@@ -25,7 +25,9 @@ const MyBookings: React.FC = () => {
 
     setLoading(true);
     try {
-      const res = await axios.get(`http://localhost:8080/api/bookings/tenant/${tenantId}`);
+      const res = await axios.get(
+        `http://localhost:8080/api/bookings/tenant/${tenantId}`
+      );
       setBookings(res.data);
     } catch (err) {
       console.error("Error fetching bookings:", err);
@@ -46,7 +48,10 @@ const MyBookings: React.FC = () => {
           onChange={(e) => setTenantIdInput(e.target.value)}
           className="border px-3 py-2 rounded mr-2"
         />
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+        <button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
           Bookings
         </button>
       </form>

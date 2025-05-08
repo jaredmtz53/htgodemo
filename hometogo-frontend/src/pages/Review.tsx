@@ -25,7 +25,9 @@ const Review: React.FC = () => {
     propertyId: 0,
   });
 
-  const [submittedReview, setSubmittedReview] = useState<ReviewData | null>(null);
+  const [submittedReview, setSubmittedReview] = useState<ReviewData | null>(
+    null
+  );
 
   useEffect(() => {
     const tenantId = Number(localStorage.getItem("tenantId")) || 2;
@@ -37,7 +39,9 @@ const Review: React.FC = () => {
     }));
   }, [propertyId]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setReview({
       ...review,
@@ -110,11 +114,21 @@ const Review: React.FC = () => {
 
       {submittedReview && (
         <div className="mt-6 border p-4 rounded bg-gray-50">
-          <h2 className="font-semibold text-lg mb-2 text-center">Review Submitted</h2>
-          <p><strong>Rating:</strong> {submittedReview.rating}</p>
-          <p><strong>Content:</strong> {submittedReview.content}</p>
-          <p><strong>Tenant ID:</strong> {submittedReview.tenantId}</p>
-          <p><strong>Property ID:</strong> {submittedReview.propertyId}</p>
+          <h2 className="font-semibold text-lg mb-2 text-center">
+            Review Submitted
+          </h2>
+          <p>
+            <strong>Rating:</strong> {submittedReview.rating}
+          </p>
+          <p>
+            <strong>Content:</strong> {submittedReview.content}
+          </p>
+          <p>
+            <strong>Tenant ID:</strong> {submittedReview.tenantId}
+          </p>
+          <p>
+            <strong>Property ID:</strong> {submittedReview.propertyId}
+          </p>
         </div>
       )}
     </div>

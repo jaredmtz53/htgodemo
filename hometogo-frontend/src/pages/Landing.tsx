@@ -42,11 +42,12 @@ function Landing() {
             </CardHeader>
 
             <CardContent onClick={() => handlePropertyClick(property.id)}>
-  <img src={property.image} alt="" />
-  <p>{property.address}</p>
-  <p className="text-sm text-gray-500">Property ID: {property.id}</p>
-</CardContent>
-
+              <img src={property.image} alt="" />
+              <p>{property.address}</p>
+              <p className="text-sm text-gray-500">
+                Property ID: {property.id}
+              </p>
+            </CardContent>
 
             <CardFooter className="flex flex-col gap-2">
               <p>{property.price}$ per night</p>
@@ -59,7 +60,6 @@ function Landing() {
                 <button className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
                   View Reviews
                 </button>
-
               </Link>
 
               {/* Write Review */}
@@ -75,8 +75,8 @@ function Landing() {
           </Card>
         ))}
       </div>
-{/* Footer */}
-<footer className="bg-gray-800 text-white py-4 mt-8">
+      {/* Footer */}
+      <footer className="bg-gray-800 text-white py-4 mt-8">
         <div className="flex justify-center">
           <Button
             variant="default"
@@ -87,12 +87,6 @@ function Landing() {
           </Button>
         </div>
       </footer>
-
-
-
-
-
-
     </div>
   );
 }

@@ -25,9 +25,11 @@ const Booking: React.FC = () => {
   });
 
   // Hold submitted booking
-  const [submittedBooking, setSubmittedBooking] = useState<Booking | null>(null);
+  const [submittedBooking, setSubmittedBooking] = useState<Booking | null>(
+    null
+  );
 
-  // Auto-fill tenantId from localStorage (Tenant ID 2) 
+  // Auto-fill tenantId from localStorage (Tenant ID 2)
   useEffect(() => {
     const storedTenantId = Number(localStorage.getItem("tenantId"));
     if (storedTenantId) {
@@ -37,29 +39,36 @@ const Booking: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setBooking({ ...booking, [name]: name.includes("Id") ? Number(value) : value });
+    setBooking({
+      ...booking,
+      [name]: name.includes("Id") ? Number(value) : value,
+    });
   };
 
   // Handles and saves booking submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("🚨 Form submitted!");
-    console.log("📦 Payload:", booking); 
-  
+    console.log(" Form submitted!");
+    console.log(" Payload:", booking);
+
     try {
-      const res = await axios.post("http://localhost:8080/api/bookings", booking, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      console.log("✅ Success:", res.data);
+      const res = await axios.post(
+        "http://localhost:8080/api/bookings",
+        booking,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(" Success:", res.data);
       setSubmittedBooking(res.data);
     } catch (err) {
-      console.error("❌ Booking failed:", err);
+      console.error(" Booking failed:", err);
     }
   };
-  
-  // Html booking form 
+
+  // Html booking form
   return (
     <div className="max-w-md mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4 text-center">Book this house!</h1>
@@ -131,7 +140,7 @@ const Booking: React.FC = () => {
         </Button>
       </form>
 
-      {/* Show submitted booking */}           
+      {/* Show submitted booking */}
       {submittedBooking && (
         <div className="mt-6 border p-4 rounded bg-gray-50">
           <h2 className="font-semibold text-lg mb-2 text-center">

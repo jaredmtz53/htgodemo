@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -21,7 +20,9 @@ const ViewReviews = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/reviews/property/${propertyId}`);
+        const response = await fetch(
+          `http://localhost:8080/api/reviews/property/${propertyId}`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch reviews.");
         }
@@ -47,13 +48,17 @@ const ViewReviews = () => {
       </h1>
 
       {reviews.length === 0 ? (
-        <p className="text-center text-gray-500">No reviews available for this property.</p>
+        <p className="text-center text-gray-500">
+          No reviews available for this property.
+        </p>
       ) : (
         <ul className="space-y-4">
           {reviews.map((review) => (
             <li key={review.id} className="bg-white p-4 rounded shadow">
               <p className="text-gray-800">{review.content}</p>
-              <p className="text-sm text-gray-600">Rating: {review.rating} / 5</p>
+              <p className="text-sm text-gray-600">
+                Rating: {review.rating} / 5
+              </p>
               {review.reviewer && (
                 <p className="text-xs text-gray-500 mt-1">
                   Reviewer ID: {review.reviewer.id}

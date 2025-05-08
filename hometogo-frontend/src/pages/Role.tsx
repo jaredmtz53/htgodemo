@@ -18,7 +18,7 @@ function Role() {
     );
     console.log(response.data);
     const userId = response.data.id;
-    
+
     try {
       if (role === "host") {
         // Add logic for handling the "host" role
@@ -35,8 +35,7 @@ function Role() {
           }
         );
         navigate("/landing");
-      }
-      else if (role === "tenant") {
+      } else if (role === "tenant") {
         // Add logic for handling the "tenant" role
         console.log("Tenant role selected");
         await axios.post(
@@ -50,11 +49,9 @@ function Role() {
             },
           }
         );
-        
-        navigate("/landing");
 
-      }
-      else {
+        navigate("/landing");
+      } else {
         // Add logic for handling the "both" role
         console.log("Both roles selected");
         await axios.post(
@@ -78,7 +75,7 @@ function Role() {
               "Content-Type": "application/json",
             },
           }
-        )
+        );
         navigate("/landing");
       }
     } catch (error) {
