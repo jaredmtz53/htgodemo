@@ -42,9 +42,11 @@ function Landing() {
             </CardHeader>
 
             <CardContent onClick={() => handlePropertyClick(property.id)}>
-              <img src={property.image} alt="" />
-              <p>{property.address}</p>
-            </CardContent>
+  <img src={property.image} alt="" />
+  <p>{property.address}</p>
+  <p className="text-sm text-gray-500">Property ID: {property.id}</p>
+</CardContent>
+
 
             <CardFooter className="flex flex-col gap-2">
               <p>{property.price}$ per night</p>
